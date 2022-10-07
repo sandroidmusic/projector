@@ -1,8 +1,8 @@
 # Projector
 
-Not sure if this can be considered a framework or just a bunch of helpers :laughing: , let's say it's a framework to keep it simple.
+Projector is a foundation to create 3D Scenes that can be used for Projection Mapping or just to visualize audio and/or midi in the browser. It does this by using [Three.js](https://threejs.org/) , [Webmidi.js](https://webmidijs.org/) and the [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API). I'm not sure if this could be considered a framework or just a bunch of helpers :laughing: , let's say it's a framework to keep it simple.
 
-Projector is a foundation to create 3D Scenes that can be used for Projection Mapping or just to visualize audio and/or midi in the browser. It does this by using [Three.js](https://threejs.org/) , [Webmidi.js](https://webmidijs.org/) and the [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API).
+Check out this video, to see it in action: https://www.youtube.com/watch?v=J2pfZ2ajXEs
 
 All this is wrapped in [Vue 3](https://vuejs.org/) Environment, for easy Hot Reloading during development and for ease of UI development.
 
