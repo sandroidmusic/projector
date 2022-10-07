@@ -1,0 +1,12 @@
+/* -------------------------------
+  Fonts
+------------------------------- */
+@font-face {
+  font-family: 'Pixel 4x4';
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+  src: local(''),
+  url('@/assets/fonts/Pixel4x4.woff2') format('woff2'),
+  url('@/assets/fonts/Pixel4x4.woff') format('woff');
+}
