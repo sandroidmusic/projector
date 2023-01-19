@@ -13,19 +13,31 @@ import Projector from '@/components/controllers/Projector.js';
 import SceneController from '@/components/controllers/scene/SceneController.js';
 import AudioController from '@/components/controllers/audio/AudioController.js';
 import MidiController from '@/components/controllers/midi/MidiController.js';
-// import MidiEvent from '@/components/controllers/midi/objects/MidiEvent.js';
+import MidiEvent from '@/components/controllers/midi/objects/MidiEvent.js';
 
 import PolyendTracker from '@/components/devices/polyend/PolyendTracker.js';
 
 /* Example Scenes */
-import ExampleSceneVideo from '@/components/projects/examples/ExampleSceneVideo.js';
-import ExampleSceneImage from '@/components/projects/examples/ExampleSceneImage.js';
-import ExampleSceneShader from '@/components/projects/examples/ExampleSceneShader.js';
-import ExampleSceneRenderTarget from '@/components/projects/examples/ExampleSceneRenderTarget.js';
-import ExampleSceneParticles from '@/components/projects/examples/ExampleSceneParticles.js';
-import ExampleSceneAnalyzer from '@/components/projects/examples/ExampleSceneAnalyzer.js';
-import ExampleScenePadsOscilloscope from '@/components/projects/examples/ExampleScenePadsOscilloscope.js';
-import ExampleSceneAssetScope from '@/components/projects/examples/ExampleSceneAssetScope.js';
+// import ExampleSceneVideo from '@/components/projects/examples/ExampleSceneVideo.js';
+// import ExampleSceneImage from '@/components/projects/examples/ExampleSceneImage.js';
+// import ExampleSceneShader from '@/components/projects/examples/ExampleSceneShader.js';
+// import ExampleSceneRenderTarget from '@/components/projects/examples/ExampleSceneRenderTarget.js';
+// import ExampleSceneParticles from '@/components/projects/examples/ExampleSceneParticles.js';
+
+/* Project: Night Rider */
+import SceneIntro from '@/components/projects/nightrider/SceneIntro.js';
+import SynthwaveAnalyzer from '@/components/projects/nightrider/SynthwaveAnalyzer.js';
+import SceneProtracker from '@/components/projects/nightrider/SceneProtracker.js';
+import ScenePadsOscilloscope from '@/components/projects/nightrider/ScenePadsOscilloscope.js';
+import SceneAssetScope from '@/components/projects/nightrider/SceneAssetScope.js';
+import SceneFireSparks from '@/components/projects/nightrider/SceneFireSparks.js';
+import SceneShaderBall from '@/components/projects/nightrider/SceneShaderBall.js';
+import ScenePadsOscilloscopeWhite from '@/components/projects/nightrider/ScenePadsOscilloscopeWhite.js';
+import ScenePump from '@/components/projects/nightrider/ScenePump.js';
+import SceneBarVisualizer from '@/components/projects/nightrider/SceneBarVisualizer.js';
+import SceneBehringerTrucker from '@/components/projects/nightrider/SceneBehringerTrucker.js';
+import SceneVideosBuildup from '@/components/projects/nightrider/SceneVideosBuildup.js';
+import SceneVideosOutro from '@/components/projects/nightrider/SceneVideosOutro.js';
 
 //---------------------------------------------------
 //
@@ -53,15 +65,12 @@ async function initialize() {
 
   // Initialize the AudioController
   // if no audio device-id is passed, you will get a popup
-  // you will see the device-id in the console
-  await AudioController.initialize(null);
+  await AudioController.initialize('327681c58036bdb99660530b16fa46c75e2bf02b9ca01fb369914c87d4ca57ff');
 
   // Initialize the MidiController
-  // again, if no device-name is passed, you will get a popup
-  // you will see the device-name in the console
   if (!MidiController.initialized) {
     await MidiController.initialize({
-      device: null,
+      device: 'Tracker',
       bpm: 92,
     });
   }
@@ -88,16 +97,26 @@ async function initialize() {
 
   // You can either set up the scenes via the SceneController..
   await SceneController.setup([
-    { id: 'video', scenes: [ExampleSceneVideo] },
-    { id: 'image', scenes: [ExampleSceneImage] },
-    { id: 'rendertarget', scenes: [ExampleSceneRenderTarget] },
-    { id: 'shader', scenes: [ExampleSceneShader] },
-    { id: 'particles', scenes: [ExampleSceneParticles] },
+    { id: 'intro', scenes: [SceneIntro] },
+    { id: 0, scenes: [SceneVideosBuildup, ScenePadsOscilloscope]},
+    { id: 1, scenes: [SynthwaveAnalyzer, SceneFireSparks]},
+    { id: 2, scenes: [SceneAssetScope]},
+    { id: 3, scenes: [SceneShaderBall, ScenePadsOscilloscopeWhite]},
+    { id: 4, scenes: [ScenePump, SceneBarVisualizer]},
+    { id: 5, scenes: [SceneProtracker]},
+    { id: 6, scenes: [SceneBehringerTrucker]},
+    { id: 7, scenes: [SceneVideosOutro]},
 
-    // These require Midi & Audio
-    { id: 'synthwave', scenes: [ExampleSceneAnalyzer] },
-    { id: 'osc', scenes: [ExampleScenePadsOscilloscope] },
-    { id: 'scope', scenes: [ExampleSceneAssetScope] },
+    // { id: 'image', scenes: [ExampleSceneImage] },
+    // { id: 'video', scenes: [ExampleSceneVideo] },
+    // { id: 'rendertarget', scenes: [ExampleSceneRenderTarget] },
+    // { id: 'shader', scenes: [ExampleSceneShader] },
+    // { id: 'particles', scenes: [ExampleSceneParticles] },
+    // { id: 'synthwave', scenes: [SynthwaveAnalyzer] },
+    // { id: 'protracker', scenes: [SceneProtracker] },
+    // { id: 'osc', scenes: [ScenePadsOscilloscope] },
+    // { id: 'lissajous', scenes: [SceneWheelLissajous] },
+    // { id: 'scope', scenes: [SceneAssetScope] },
     /* Numeric id's (0 - 127) are reserved for MidiController */
   ]);
 
@@ -105,7 +124,9 @@ async function initialize() {
    * ..or build your own routing/logic based
    * on the available MidiController events
    */
-  // MidiController.on(MidiEvent.DEVICE, (evt) => { console.log(evt); });
+  MidiController.on(MidiEvent.DEVICE, () => {
+    SceneController.setSceneParameter();
+  });
   // MidiController.on(MidiEvent.START, (evt) => { console.log(evt); });
   // MidiController.on(MidiEvent.STOP, (evt) => { console.log(evt); });
   // MidiController.on(MidiEvent.BEAT, (evt) => { console.log(evt); });
@@ -113,25 +134,11 @@ async function initialize() {
   // MidiController.on(MidiEvent.SCENE_CHANGE, (evt) => { console.log(evt); });
   // MidiController.on(MidiEvent.SCENE_PARAM, (evt) => { console.log(evt); });
 
+  //
   tracker.visible = true;
   // Let's just start a defined scene
-  SceneController.play('video');
-
-  /*
-
-  Scenes and a single Parameter for every scene can be changed via midi:
-  - Scene Change CC: 20
-  - Scene Parameter CC: 21
-
-  The scene controller also exposes methods to change both:
-
-  - SceneController.play(sceneId)
-  - SceneController.setSceneParameter(value)
-
-  you can even combine the two. Example:
-  SceneController.play(7).setSceneParameter(0);
-
-  */
+  SceneController.play('intro');
+  // SceneController.play(7).setSceneParameter(0);
 }
 
 async function destroy() {
