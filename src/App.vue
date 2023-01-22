@@ -16,16 +16,10 @@ import MidiController from '@/components/controllers/midi/MidiController.js';
 // import MidiEvent from '@/components/controllers/midi/objects/MidiEvent.js';
 
 import PolyendTracker from '@/components/devices/polyend/PolyendTracker.js';
-
-/* Example Scenes */
-import ExampleSceneVideo from '@/components/projects/examples/ExampleSceneVideo.js';
-import ExampleSceneImage from '@/components/projects/examples/ExampleSceneImage.js';
-import ExampleSceneShader from '@/components/projects/examples/ExampleSceneShader.js';
-import ExampleSceneRenderTarget from '@/components/projects/examples/ExampleSceneRenderTarget.js';
-import ExampleSceneParticles from '@/components/projects/examples/ExampleSceneParticles.js';
-import ExampleSceneAnalyzer from '@/components/projects/examples/ExampleSceneAnalyzer.js';
-import ExampleScenePadsOscilloscope from '@/components/projects/examples/ExampleScenePadsOscilloscope.js';
-import ExampleSceneAssetScope from '@/components/projects/examples/ExampleSceneAssetScope.js';
+import SceneStore from '@/components/projects/through-time/SceneStore.js';
+import SceneSkyline from '@/components/projects/through-time/SceneSkyline.js';
+import SceneSpace from '@/components/projects/through-time/SceneSpace.js';
+import ScenePlanet from '@/components/projects/through-time/ScenePlanet.js';
 
 //---------------------------------------------------
 //
@@ -54,15 +48,15 @@ async function initialize() {
   // Initialize the AudioController
   // if no audio device-id is passed, you will get a popup
   // you will see the device-id in the console
-  await AudioController.initialize(null);
+  await AudioController.initialize('default');
 
   // Initialize the MidiController
   // again, if no device-name is passed, you will get a popup
   // you will see the device-name in the console
   if (!MidiController.initialized) {
     await MidiController.initialize({
-      device: null,
-      bpm: 92,
+      device: 'Tracker',
+      bpm: 122,
     });
   }
 
@@ -88,17 +82,10 @@ async function initialize() {
 
   // You can either set up the scenes via the SceneController..
   await SceneController.setup([
-    { id: 'video', scenes: [ExampleSceneVideo] },
-    { id: 'image', scenes: [ExampleSceneImage] },
-    { id: 'rendertarget', scenes: [ExampleSceneRenderTarget] },
-    { id: 'shader', scenes: [ExampleSceneShader] },
-    { id: 'particles', scenes: [ExampleSceneParticles] },
-
-    // These require Midi & Audio
-    { id: 'synthwave', scenes: [ExampleSceneAnalyzer] },
-    { id: 'osc', scenes: [ExampleScenePadsOscilloscope] },
-    { id: 'scope', scenes: [ExampleSceneAssetScope] },
-    /* Numeric id's (0 - 127) are reserved for MidiController */
+    { id: 0, scenes: [SceneStore] },
+    { id: 1, scenes: [SceneSkyline] },
+    { id: 2, scenes: [SceneSpace] },
+    { id: 3, scenes: [ScenePlanet] },
   ]);
 
   /*
@@ -113,12 +100,11 @@ async function initialize() {
   // MidiController.on(MidiEvent.SCENE_CHANGE, (evt) => { console.log(evt); });
   // MidiController.on(MidiEvent.SCENE_PARAM, (evt) => { console.log(evt); });
 
-  tracker.visible = true;
+  tracker.visible = false;
   // Let's just start a defined scene
-  SceneController.play('video');
+  SceneController.play(0);
 
   /*
-
   Scenes and a single Parameter for every scene can be changed via midi:
   - Scene Change CC: 20
   - Scene Parameter CC: 21
@@ -130,7 +116,6 @@ async function initialize() {
 
   you can even combine the two. Example:
   SceneController.play(7).setSceneParameter(0);
-
   */
 }
 

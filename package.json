@@ -8,18 +8,21 @@
     "preview": "vite preview --port 4173",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
+  "engines" : {
+    "node" : ">=17.0.0"
+  },
   "dependencies": {
-    "@pixi/assets": "^6.5.3",
-    "gsap": "^3.11.3",
+    "@pixi/assets": "6.5.8",
+    "gsap": "^3.11.4",
     "pinia": "^2.0.21",
     "pixi-filters": "^4.2.0",
-    "pixi.js": "^6.5.3",
-    "postprocessing": "^6.28.7",
-    "three": "^0.144.0",
-    "troika-three-text": "^0.46.4",
+    "pixi.js": "6.5.8",
+    "postprocessing": "^6.29.3",
+    "three": "^0.148.0",
+    "troika-three-text": "^0.47.1",
     "uuid": "^8.3.2",
     "vue": "^3.2.38",
-    "webmidi": "^3.0.21"
+    "webmidi": "^3.1.2"
   },
   "devDependencies": {
     "@intlify/vite-plugin-vue-i18n": "^6.0.1",
